@@ -1,0 +1,10 @@
+package es.pakillo.castillos.configuration;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "es.pakillo.castillos")
+public class AppConfig {
+
+}
