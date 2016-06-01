@@ -26,7 +26,7 @@ public class Jugador {
 	@Column(name = "aka")
 	private String alias;
 
-	@Column(name = "fecha_registro", nullable = false)
+	@Column(name = "fecha_registro")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fechaRegistro;
 
