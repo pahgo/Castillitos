@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -44,7 +45,9 @@ public class Jugador {
 
 	@Column(name = "fragmentos_prev")
 	private Integer fragmentosPrevios;
-	
+
+	@Transient
+	private Double proporcion;
 	/**
 	 * @return the puntos
 	 */
@@ -179,6 +182,20 @@ public class Jugador {
 	public String toString() {
 		return "Jugador [id=" + id + ", nombre=" + nombre + ", fechaRegistro="
 				+ fechaRegistro + "]";
+	}
+
+	/**
+	 * @return the proporcion
+	 */
+	public Double getProporcion() {
+		return proporcion;
+	}
+
+	/**
+	 * @param proporcion the proporcion to set
+	 */
+	public void setProporcion(Double proporcion) {
+		this.proporcion = proporcion;
 	}
 	
 	
