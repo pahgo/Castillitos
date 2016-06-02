@@ -18,7 +18,7 @@ public enum Jugadores {
 
 	public static Jugador mapper(final ResultSet rs) throws SQLException {
 		Jugador jugador = new Jugador();
-//		jugador.setId(rs.getLong(Jugadores.ID_JUGADOR.nombre()));
+		jugador.setId(rs.getLong(Jugadores.ID_JUGADOR.nombre()));
 		jugador.setNombre(rs.getString(Jugadores.NOMBRE.nombre()));
 		jugador.setIdAlianza(1L);
 		return jugador;

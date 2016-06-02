@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.joda.time.LocalDate;
 
-import es.pakillo.castillos.model.Puntos;
+import es.pakillo.castillos.model.Ingreso;
 
 
 public enum PuntosJugador {
@@ -22,11 +22,11 @@ public enum PuntosJugador {
 		return IterableEnum.all(PuntosJugador.class, Tablas.PUNTOS_JUGADOR);
 	}
 	
-	public static Puntos mapper(final ResultSet rs) throws SQLException {
-		Puntos puntos = new Puntos();
-		puntos.setFecha(new LocalDate(rs.getLong(PuntosJugador.FECHA.nombre())));
-		puntos.setIdJugador(rs.getLong(PuntosJugador.ID_JUGADOR.nombre()));
-		puntos.setPuntos(rs.getLong(PuntosJugador.PUNTOS.nombre()));
-		return puntos;
+	public static Ingreso mapper(final ResultSet rs) throws SQLException {
+		Ingreso ingresos = new Ingreso();
+		ingresos.setFecha(new LocalDate(rs.getLong(PuntosJugador.FECHA.nombre())));
+		ingresos.setIdJugador(rs.getLong(PuntosJugador.ID_JUGADOR.nombre()));
+		ingresos.setPuntos(rs.getInt(PuntosJugador.PUNTOS.nombre()));
+		return ingresos;
 	}
 }

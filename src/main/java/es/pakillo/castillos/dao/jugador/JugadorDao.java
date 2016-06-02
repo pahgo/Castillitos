@@ -17,4 +17,6 @@ public interface JugadorDao {
 	void updateJugador(Jugador jugador);
 	
 	List<Jugador> findByIdAlianza(Long idAlianza);
+
+	Jugador findById(Long idJugador);
 }

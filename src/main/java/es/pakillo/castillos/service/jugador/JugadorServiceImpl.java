@@ -41,4 +41,9 @@ public class JugadorServiceImpl implements JugadorService {
 	public List<Jugador> findByIdAlianza(Long idAlianza) {
 		return dao.findByIdAlianza(idAlianza);
 	}
+
+	@Override
+	public Jugador findById(Long idJugador) {
+		return dao.findById(idJugador);
+	}
 }

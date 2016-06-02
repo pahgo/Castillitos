@@ -11,7 +11,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 @Entity
-@Table(name="ALIANZA")
+@Table(name="ALIANZAS")
 public class Alianza {
 
 	@Id

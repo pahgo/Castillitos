@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -47,7 +48,15 @@ public class JugadorDaoImpl extends AbstractDao implements JugadorDao {
 	public List<Jugador> findByIdAlianza(Long idAlianza) {
 		Criteria criteria = getSession().createCriteria(Jugador.class);
 		criteria.add(Restrictions.eq("idAlianza", idAlianza));
+		criteria.addOrder(Order.desc("puntos"));
 		return (List<Jugador>) criteria.list();
+	}
+
+	@Override
+	public Jugador findById(Long idJugador) {
+		Criteria criteria = getSession().createCriteria(Jugador.class);
+		criteria.add(Restrictions.eq("id", idJugador));
+		return (Jugador) criteria.uniqueResult();
 	}
 
 }

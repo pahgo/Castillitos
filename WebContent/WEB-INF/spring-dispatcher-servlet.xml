@@ -13,6 +13,7 @@
 
 	<bean name="/" class="es.pakillo.castillos.controller.Main"/>
 	<bean name="/alianza" class="es.pakillo.castillos.controller.AlianzaController"/>
+	<bean name="/jugador" class="es.pakillo.castillos.controller.JugadorController"/>
 	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -11,7 +11,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 @Entity
-@Table(name="jugador")
+@Table(name="JUGADORES")
 public class Jugador {
 
 	@Id
@@ -32,6 +32,74 @@ public class Jugador {
 
 	@Column(name = "id_alianza", nullable = false)
 	private Long idAlianza;
+	
+	@Column(name = "puntos")
+	private Integer puntos;
+	
+	@Column(name = "puntos_prev")
+	private Integer puntosPrevios;
+
+	@Column(name = "fragmentos")
+	private Integer fragmentos;
+
+	@Column(name = "fragmentos_prev")
+	private Integer fragmentosPrevios;
+	
+	/**
+	 * @return the puntos
+	 */
+	public Integer getPuntos() {
+		return puntos;
+	}
+
+	/**
+	 * @param puntos the puntos to set
+	 */
+	public void setPuntos(Integer puntos) {
+		this.puntos = puntos;
+	}
+
+	/**
+	 * @return the puntosPrevios
+	 */
+	public Integer getPuntosPrevios() {
+		return puntosPrevios;
+	}
+
+	/**
+	 * @param puntosPrevios the puntosPrevios to set
+	 */
+	public void setPuntosPrevios(Integer puntosPrevios) {
+		this.puntosPrevios = puntosPrevios;
+	}
+
+	/**
+	 * @return the fragmentos
+	 */
+	public Integer getFragmentos() {
+		return fragmentos;
+	}
+
+	/**
+	 * @param fragmentos the fragmentos to set
+	 */
+	public void setFragmentos(Integer fragmentos) {
+		this.fragmentos = fragmentos;
+	}
+
+	/**
+	 * @return the fragmentosPrevios
+	 */
+	public Integer getFragmentosPrevios() {
+		return fragmentosPrevios;
+	}
+
+	/**
+	 * @param fragmentosPrevios the fragmentosPrevios to set
+	 */
+	public void setFragmentosPrevios(Integer fragmentosPrevios) {
+		this.fragmentosPrevios = fragmentosPrevios;
+	}
 
 	/**
 	 * @return the alias
