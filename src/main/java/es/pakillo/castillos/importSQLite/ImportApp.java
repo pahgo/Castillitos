@@ -57,6 +57,17 @@ public class ImportApp {
 				sb.append(ingreso.getFragmentosPrevios()).append(", ");
 				sb.append("'").append(ingreso.getFecha()).append("');\n");				
 			}
+			if(ingreso.getIdJugador().equals(43L)) {
+				
+				sb.append("INSERT INTO INGRESOS (ID, ID_JUGADOR, PUNTOS, PUNTOS_PREV, FRAGMENTOS, FRAGMENTOS_PREV, FECHA) VALUES (");
+				sb.append(1 + i/2).append(", ");
+				sb.append(ingreso.getIdJugador()).append(", ");
+				sb.append(ingreso.getPuntos()).append(", ");
+				sb.append(ingreso.getPuntosPrevios()).append(", ");
+				sb.append(ingreso.getFragmentos()).append(", ");
+				sb.append(ingreso.getFragmentosPrevios()).append(", ");
+				sb.append("'").append(ingreso.getFecha()).append("');\n");				
+			}
 			prev = ingreso.getFecha();
 		}
 		System.out.println(sb.toString());

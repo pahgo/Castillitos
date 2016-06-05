@@ -18,9 +18,9 @@
 						<th><span>Jugador</span></th>
 						<th><span>Fecha</span></th>
 						<th><span>Puntos</span></th>
-						<th><span>Puntos la otra vez</span></th>
+						<th><span>Diferencia</span></th>
 						<th><span>Fragmentos</span></th>
-						<th><span>Fragmentos la otra vez</span></th>
+						<th><span>Diferencia</span></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -29,7 +29,7 @@
 							<td>${jugador.nombre}</td>
 							<td>${ingreso.fecha}</td>
 							<td>${ingreso.puntos}</td>
-							<td>${ingreso.puntosPrevios}</td>
+							<td class="evaluatePos">${ingreso.puntosPrevios}</td>
 							<td>${ingreso.fragmentos}</td>
 							<td>${ingreso.fragmentosPrevios}</td>
 						</tr>
@@ -41,6 +41,16 @@
 	<script type="text/javascript">
 		$(function() {
 			$('#ingresos').tablesorter();
+		});
+		$(function() {
+			$('.evaluatePos').each(function() {
+				if(Number($(this).html()) > 0) {
+					$(this).attr("style", "background:green; color: aqua;");
+				}
+				else if(Number($(this).html()) < 0) {
+					$(this).attr("style", "background:red; color: aqua;");
+				}
+			});
 		});
 	</script>
 </body>

@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<input id="toggle" type="button" value="Comparar Fragmentos" onclick="toggle();">
+		<input id="toggle" type="button" value="Comparar ${mode}" onclick="toggle();">
 		<c:if test="${not empty jugadorA && not empty jugadorB}">
 			<canvas id="myChart" width="400" height="400"></canvas>
 		</c:if>

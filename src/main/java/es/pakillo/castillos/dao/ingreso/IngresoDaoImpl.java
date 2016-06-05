@@ -38,4 +38,9 @@ public class IngresoDaoImpl extends AbstractDao implements IngresoDao {
 		return (List<Ingreso>) criteria.list();
 	}
 
+	@Override
+	public void update(Ingreso ingreso) {
+		persist(ingreso);
+	}
+
 }

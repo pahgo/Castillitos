@@ -11,4 +11,6 @@ public interface IngresoDao {
 	List<Ingreso> findAllIngresos();
 	
 	List<Ingreso> findByIdJugador(Long idJugador, boolean orderAsc);
+	
+	void update(Ingreso ingreso);
 }
