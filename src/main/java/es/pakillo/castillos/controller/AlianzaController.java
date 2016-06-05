@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import es.pakillo.castillos.model.Jugador;
+import es.pakillo.castillos.service.alianza.AlianzaService;
 import es.pakillo.castillos.service.jugador.JugadorService;
 
 public class AlianzaController extends AbstractController {
@@ -19,15 +20,19 @@ public class AlianzaController extends AbstractController {
 	AbstractApplicationContext context;
 
 	@Autowired
-	JugadorService service;
+	JugadorService jugadorService;
+	
+	@Autowired
+	AlianzaService alianzaService;
 	
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		final ModelAndView modelAndView = new ModelAndView("alianza");
-		Long idAlianza = request.getParameter("id") != null ? Long.valueOf(request.getParameter("id")) : 0;
-		List<Jugador> jugadores = service.findByIdAlianza(idAlianza);
-		jugadores.forEach(p -> p.setProporcion((p.getFragmentos()*100.0)/p.getPuntos()));
+		Long idAlianza = request.getParameter("id") != null ? Long.valueOf(request.getParameter("id")) : 1;
+		List<Jugador> jugadores = jugadorService.findByIdAlianza(idAlianza);
+		jugadores.forEach(p -> p.setProporcion(Math.floor((p.getFragmentos()*10000.0)/p.getPuntos())/100));
+		modelAndView.addObject("alianza", alianzaService.findById(idAlianza));
 		modelAndView.addObject("jugadores", jugadores);
 		return modelAndView;
 	}

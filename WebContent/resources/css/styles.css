@@ -52,12 +52,20 @@ strong, b { font-weight: bold; }
 table { border-collapse: collapse; border-spacing: 0; }
 img { border: 0; max-width: 100%; }
 
-h1 { 
+.titleH1 { 
   font-family: 'Amarante', Tahoma, sans-serif;
   font-weight: bold;
   font-size: 3.6em;
   line-height: 1.7em;
   margin-bottom: 10px;
+  text-align: center;
+}
+.titleH2 { 
+  font-family: 'Amarante', Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 2.3em;
+  line-height: 1.3em;
+  margin-bottom: 7px;
   text-align: center;
 }
 
@@ -72,47 +80,47 @@ h1 {
   -webkit-box-shadow: 2px 2px 3px -1px rgba(0,0,0,0.35);
 }
 
-#keywords {
+.sorTable {
   margin: 0 auto;
   font-size: 1.2em;
   margin-bottom: 15px;
 }
 
 
-#keywords thead {
+.sorTable thead {
   cursor: pointer;
   background: #c9dff0;
 }
-#keywords thead tr th { 
+.sorTable thead tr th { 
   font-weight: bold;
   padding: 12px 30px;
   padding-left: 42px;
 }
-#keywords thead tr th span { 
+.sorTable thead tr th span { 
   padding-right: 20px;
   background-repeat: no-repeat;
   background-position: 100% 100%;
 }
 
-#keywords thead tr th.headerSortUp, #keywords thead tr th.headerSortDown {
+.sorTable thead tr th.headerSortUp, .sorTable thead tr th.headerSortDown {
   background: #acc8dd;
 }
 
-#keywords thead tr th.headerSortUp span {
+.sorTable thead tr th.headerSortUp span {
   background-image: url('up-arrow.png');
 }
-#keywords thead tr th.headerSortDown span {
+.sorTable thead tr th.headerSortDown span {
   background-image: url('down-arrow.png');
 }
 
 
-#keywords tbody tr { 
+.sorTable tbody tr { 
   color: #555;
 }
-#keywords tbody tr td {
+.sorTable tbody tr td {
   text-align: center;
   padding: 15px 10px;
 }
-#keywords tbody tr td.lalign {
+.sorTable tbody tr td.lalign {
   text-align: left;
 }

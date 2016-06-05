@@ -19,7 +19,7 @@ public class UpdateImportAPP {
 		List<Jugador> jugadores = context.getBean(JugadorDao.class).findAllJugadores();
 
 		for (Jugador jugador : jugadores) {
-			List<Ingreso> ingresosJugador = context.getBean(IngresoDao.class).findByIdJugador(jugador.getId());
+			List<Ingreso> ingresosJugador = context.getBean(IngresoDao.class).findByIdJugador(jugador.getId(), false);
 			Collections.sort(ingresosJugador);
 			Ingreso ultimoIngreso = ingresosJugador.get(ingresosJugador.size() - 1);
 			jugador.setPuntos(ultimoIngreso.getPuntos());

@@ -19,4 +19,6 @@ public interface JugadorService {
 	List<Jugador> findByIdAlianza(Long idAlianza);
 	
 	Jugador findById(Long idJugador);
+	
+	Jugador findFullJugadorById(Long idJugador, boolean orderAsc);
 }

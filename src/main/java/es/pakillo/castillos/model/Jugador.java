@@ -1,5 +1,7 @@
 package es.pakillo.castillos.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,6 +50,23 @@ public class Jugador {
 
 	@Transient
 	private Double proporcion;
+	
+	@Transient
+	private List<Ingreso> ingresos;
+	/**
+	 * @return the ingresos
+	 */
+	public List<Ingreso> getIngresos() {
+		return ingresos;
+	}
+
+	/**
+	 * @param ingresos the ingresos to set
+	 */
+	public void setIngresos(List<Ingreso> ingresos) {
+		this.ingresos = ingresos;
+	}
+
 	/**
 	 * @return the puntos
 	 */

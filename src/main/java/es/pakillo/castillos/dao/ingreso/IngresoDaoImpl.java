@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -27,9 +28,13 @@ public class IngresoDaoImpl extends AbstractDao implements IngresoDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Ingreso> findByIdJugador(Long idJugador) {
+	public List<Ingreso> findByIdJugador(Long idJugador, boolean orderAsc) {
 		Criteria criteria = getSession().createCriteria(Ingreso.class);
 		criteria.add(Restrictions.eq("idJugador", idJugador));
+		if (orderAsc) 
+			criteria.addOrder(Order.asc("fecha"));
+		else
+			criteria.addOrder(Order.desc("fecha"));
 		return (List<Ingreso>) criteria.list();
 	}
 

@@ -11,9 +11,11 @@
 	<bean id="HandlerMapping"
 		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
 
-	<bean name="/" class="es.pakillo.castillos.controller.Main" />
+	<!--  <bean name="/" class="es.pakillo.castillos.controller.Main" />-->
+	<bean name="/" class="es.pakillo.castillos.controller.AlianzaController" />
 	<bean name="/alianza" class="es.pakillo.castillos.controller.AlianzaController" />
 	<bean name="/jugador" class="es.pakillo.castillos.controller.JugadorController" />
+	<bean name="/comparaJugadores" class="es.pakillo.castillos.controller.CompararJugadoresController" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

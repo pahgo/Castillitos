@@ -42,4 +42,11 @@ public class AlianzaDaoImpl extends AbstractDao implements AlianzaDao {
 		getSession().update(alianza);
 	}
 
+	@Override
+	public Alianza findById(Long idAlianza) {
+		Criteria criteria = getSession().createCriteria(Alianza.class);
+		criteria.add(Restrictions.eq("id", idAlianza));
+		return (Alianza) criteria.uniqueResult();		
+	}
+
 }

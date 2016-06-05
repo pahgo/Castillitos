@@ -10,5 +10,5 @@ public interface IngresoDao {
 	
 	List<Ingreso> findAllIngresos();
 	
-	List<Ingreso> findByIdJugador(Long idJugador);
+	List<Ingreso> findByIdJugador(Long idJugador, boolean orderAsc);
 }

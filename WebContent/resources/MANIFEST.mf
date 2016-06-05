@@ -1,0 +1,15 @@
+CACHE MANIFEST
+# 2016-06-03:v1
+#CACHE:
+#css/bg.png
+#css/down-arrow.png
+#css/styles.css
+#css/up-arrow.png
+#js/jquery-1.10.2.min.js
+#js/jquery.tablesorter.min.js
+
+#http://fonts.googleapis.com/css?family=Amarante
+#http://fonts.gstatic.com/s/amarante/v4/mf2HDk-wdi2JEvIxvmwX9vesZW2xOQ-xsNqO47m55DA.woff2
+
+#NETWORK:
+#*

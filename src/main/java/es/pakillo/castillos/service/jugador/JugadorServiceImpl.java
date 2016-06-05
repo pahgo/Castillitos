@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.pakillo.castillos.dao.jugador.JugadorDao;
 import es.pakillo.castillos.model.Jugador;
+import es.pakillo.castillos.service.ingreso.IngresoService;
 import es.pakillo.castillos.service.jugador.JugadorService;
 
 @Service("jugadorService")
@@ -16,6 +17,9 @@ public class JugadorServiceImpl implements JugadorService {
 
 	@Autowired
 	private JugadorDao dao;
+	
+	@Autowired
+	private IngresoService ingresoService;
 
 	public void saveJugador(Jugador jugador) {
 		dao.saveJugador(jugador);
@@ -45,5 +49,12 @@ public class JugadorServiceImpl implements JugadorService {
 	@Override
 	public Jugador findById(Long idJugador) {
 		return dao.findById(idJugador);
+	}
+
+	@Override
+	public Jugador findFullJugadorById(Long idJugador, boolean orderAsc) {
+		Jugador jugador = dao.findById(idJugador);
+		jugador.setIngresos(ingresoService.findByIdJugador(idJugador, orderAsc));
+		return jugador;
 	}
 }

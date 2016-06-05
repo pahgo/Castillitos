@@ -15,5 +15,7 @@ public interface AlianzaService {
 	Alianza findByNombre(String nombre);
 
 	void updateAlianza(Alianza alianza);
+
+	Alianza findById(Long idAlianza);
 	
 }

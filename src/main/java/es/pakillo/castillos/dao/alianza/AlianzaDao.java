@@ -15,4 +15,6 @@ public interface AlianzaDao {
 	Alianza findByNombre(String nombre);
 	
 	void updateAlianza(Alianza alianza);
+
+	Alianza findById(Long idAlianza);
 }

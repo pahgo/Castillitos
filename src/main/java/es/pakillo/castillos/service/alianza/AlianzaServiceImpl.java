@@ -35,4 +35,9 @@ public class AlianzaServiceImpl implements AlianzaService {
 	public void updateAlianza(Alianza alianza) {
 		dao.updateAlianza(alianza);
 	}
+
+	@Override
+	public Alianza findById(Long idAlianza) {
+		return dao.findById(idAlianza);
+	}
 }

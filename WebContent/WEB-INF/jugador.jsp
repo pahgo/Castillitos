@@ -1,31 +1,47 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
+
+<head>
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value="/resources/css/styles.css"/>">
+<script src="<c:url value="/resources/js/jquery-1.10.2.min.js" />"></script>
+<script src="<c:url value="/resources/js/jquery.tablesorter.min.js" />"></script>
+</head>
 <body>
-	<h2>Historial!</h2>
-	<c:if test="${not empty ingresos}">
-		<table id="jugador">
-			<tbody>
-				<tr>
-					<th>Jugador</th>
-					<th>Fecha</th>
-					<th>Puntos</th>
-					<th>Puntos la otra vez</th>
-					<th>Fragmentos</th>
-					<th>Fragmentos la otra vez</th>
-				</tr>
-				<c:forEach var="ingreso" items="${ingresos}">
+	<div id="wrapper">
+		<h1 class="titleH1">${jugador.nombre }</h1>
+		<c:if test="${not empty ingresos}">
+			<table id="ingresos" class="sorTable">
+				<thead>
 					<tr>
-						<td>${nombre}</td>
-						<td>${ingreso.fecha}</td>
-						<td>${ingreso.puntos}</td>
-						<td>${ingreso.puntosPrevios}</td>
-						<td>${ingreso.fragmentos}</td>
-						<td>${ingreso.fragmentosPrevios}</td>
+						<th><span>Jugador</span></th>
+						<th><span>Fecha</span></th>
+						<th><span>Puntos</span></th>
+						<th><span>Puntos la otra vez</span></th>
+						<th><span>Fragmentos</span></th>
+						<th><span>Fragmentos la otra vez</span></th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:if>
+				</thead>
+				<tbody>
+					<c:forEach var="ingreso" items="${ingresos}">
+						<tr>
+							<td>${jugador.nombre}</td>
+							<td>${ingreso.fecha}</td>
+							<td>${ingreso.puntos}</td>
+							<td>${ingreso.puntosPrevios}</td>
+							<td>${ingreso.fragmentos}</td>
+							<td>${ingreso.fragmentosPrevios}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</c:if>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			$('#ingresos').tablesorter();
+		});
+	</script>
 </body>
 </html>

@@ -26,7 +26,7 @@ public class IngresoServiceImpl implements IngresoService {
 
 
 	@Override
-	public List<Ingreso> findByIdJugador(Long idJugador) {
-		return dao.findByIdJugador(idJugador);
+	public List<Ingreso> findByIdJugador(Long idJugador, boolean orderAsc) {
+		return dao.findByIdJugador(idJugador, orderAsc);
 	}
 }

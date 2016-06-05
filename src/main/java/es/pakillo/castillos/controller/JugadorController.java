@@ -27,8 +27,8 @@ public class JugadorController extends AbstractController {
 			throws Exception {
 		final ModelAndView modelAndView = new ModelAndView("jugador");
 		Long idJugador = request.getParameter("id") != null ? Long.valueOf(request.getParameter("id")) : 0;
-		modelAndView.addObject("ingresos", ingresoService.findByIdJugador(idJugador));
-		modelAndView.addObject("nombre", jugadorService.findById(idJugador).getNombre());
+		modelAndView.addObject("ingresos", ingresoService.findByIdJugador(idJugador, false));
+		modelAndView.addObject("jugador", jugadorService.findById(idJugador));
 		return modelAndView;
 	}
 
