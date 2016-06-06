@@ -40,7 +40,7 @@ public class IngresoDaoImpl extends AbstractDao implements IngresoDao {
 
 	@Override
 	public void update(Ingreso ingreso) {
-		persist(ingreso);
+		getSession().update(ingreso);
 	}
 
 }

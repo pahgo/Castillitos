@@ -16,6 +16,8 @@
 	<bean name="/alianza" class="es.pakillo.castillos.controller.AlianzaController" />
 	<bean name="/jugador" class="es.pakillo.castillos.controller.JugadorController" />
 	<bean name="/comparaJugadores" class="es.pakillo.castillos.controller.CompararJugadoresController" />
+	<bean name="/puntuaciones" class="es.pakillo.castillos.controller.ActualizaPuntuacionesController" />
+	<bean name="/guardarNuevasPuntuaciones" class="es.pakillo.castillos.controller.ActualizaPuntuacionesController" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
