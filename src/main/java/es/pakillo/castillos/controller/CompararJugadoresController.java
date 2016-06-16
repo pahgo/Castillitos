@@ -2,6 +2,7 @@ package es.pakillo.castillos.controller;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.StringJoiner;
@@ -10,35 +11,25 @@ import java.util.stream.Collector;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
+import es.pakillo.castillos.Constants;
 import es.pakillo.castillos.model.Ingreso;
 import es.pakillo.castillos.model.Jugador;
-import es.pakillo.castillos.service.ingreso.IngresoService;
-import es.pakillo.castillos.service.jugador.JugadorService;
 
-public class CompararJugadoresController extends AbstractController {
+public class CompararJugadoresController extends BasicController {
 
-	@Autowired
-	AbstractApplicationContext context;
-
-	@Autowired
-	IngresoService ingresoService;
-
-	@Autowired
-	JugadorService jugadorService;
+	private static final int NUMBER_OF_ELEMENTS = 30;
 
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		Jugador jugadorA = jugadorService.findFullJugadorById(Long.valueOf(request.getParameter("jugadorA")), true);
-		Jugador jugadorB = jugadorService.findFullJugadorById(Long.valueOf(request.getParameter("jugadorB")), true);
-		adjustToMinElements(jugadorA, jugadorB);
-		getData(request, jugadorA, jugadorB);
-		return getData(request, jugadorA, jugadorB);
+	protected ModelAndView doHandleRequestInternal(HttpServletRequest request, HttpServletResponse response) {
+		String players [] = request.getParameter("jugadores").split(",");
+		List<Jugador> jugadores = new ArrayList<Jugador>();
+		for (String p : players) {
+			jugadores.add(jugadorService.findFullJugadorById(Long.valueOf(p), true));
+		}
+		adjustToMinElements(jugadores);
+		return getData(request, jugadores);
 	}
 
 	/**
@@ -47,20 +38,32 @@ public class CompararJugadoresController extends AbstractController {
 	 * @param jugadorA
 	 * @param jugadorB
 	 */
-	private ModelAndView getData(HttpServletRequest request, Jugador jugadorA,
-			Jugador jugadorB) {
+	private ModelAndView getData(HttpServletRequest request, List<Jugador> jugadores) {
 		final ModelAndView modelAndView = new ModelAndView("comparaJugadores");
-		modelAndView.addObject("mode", request.getParameter("mode"));
-		modelAndView.addObject("jugadorA", jugadorA);
-		modelAndView.addObject("jugadorB", jugadorB);
-		modelAndView.addObject("fechas", getHistorialFechas(jugadorA));
-		if ("Puntos".equals(request.getParameter("mode"))) {
-			modelAndView.addObject("puntosA", getHistorialPuntosJugador(jugadorA));
-			modelAndView.addObject("puntosB", getHistorialPuntosJugador(jugadorB));
-		} else if ("Fragmentos".equals(request.getParameter("mode"))) {
-			modelAndView.addObject("puntosA", getHistorialFragmentosJugador(jugadorA));
-			modelAndView.addObject("puntosB", getHistorialFragmentosJugador(jugadorB));
+		modelAndView.addObject("fechas", getHistorialFechas(jugadores.get(0)));
+		StringJoiner puntos = new StringJoiner(",", "[", "]");
+		StringJoiner nombres = new StringJoiner(",", "[", "]");
+		StringJoiner colores = new StringJoiner(",", "[", "]");
+		int i = 0;
+		if (Constants.PUNTOS.equals(request.getParameter(Constants.MODE))) {
+			Collections.sort(jugadores, Jugador.byPuntosDesc);
+		} else if (Constants.FRAGMENTOS.equals(request.getParameter(Constants.MODE))) {
+			Collections.sort(jugadores, Jugador.byFragmentosDesc);
+		} 
+		for (Jugador j : jugadores) {
+			if (Constants.PUNTOS.equals(request.getParameter(Constants.MODE))) {
+				puntos.add(getHistorialPuntosJugador(j));
+			} else if (Constants.FRAGMENTOS.equals(request.getParameter(Constants.MODE))) {
+				puntos.add(getHistorialFragmentosJugador(j));
+			}
+			nombres.add("'" + j.getNombre() + "'");
+			colores.add("'" + Constants.COLORS_ARRAY[i++%50] +"'");
 		}
+		modelAndView.addObject("puntos", puntos.toString());
+		modelAndView.addObject("colores", colores);
+		modelAndView.addObject(Constants.MODE, request.getParameter(Constants.MODE));
+		modelAndView.addObject("nombres", nombres);
+
 		return modelAndView;
 	}
 
@@ -68,11 +71,10 @@ public class CompararJugadoresController extends AbstractController {
 	 * @param jugadorA
 	 * @param jugadorB
 	 */
-	private void adjustToMinElements(Jugador jugadorA, Jugador jugadorB) {
-		if (needToCutElements(jugadorA, jugadorB)) {
-			int numIngresos = getNumberOfElements(jugadorA, jugadorB);
-			jugadorA.setIngresos(jugadorA.getIngresos().stream().collect(lastN(numIngresos)));
-			jugadorB.setIngresos(jugadorB.getIngresos().stream().collect(lastN(numIngresos)));
+	private void adjustToMinElements(List<Jugador> jugadores) {
+		int numIngresos = getNumberOfElements(jugadores);
+		for (Jugador j : jugadores) {
+			j.setIngresos(j.getIngresos().stream().collect(lastN(numIngresos)));
 		}
 	}
 
@@ -81,57 +83,43 @@ public class CompararJugadoresController extends AbstractController {
 	 * @param jugadorB
 	 * @return
 	 */
-	private int getNumberOfElements(Jugador jugadorA, Jugador jugadorB) {
-		int numIngresos = 10;
-		if (jugadorA.getIngresos().size() > jugadorB.getIngresos().size()) {
-			numIngresos = jugadorB.getIngresos().size();
-		} else if (jugadorB.getIngresos().size() > jugadorA.getIngresos().size()) {
-			numIngresos = jugadorA.getIngresos().size();
-		}
-		if (10 < numIngresos) {
-			numIngresos = 10;
+	private int getNumberOfElements(List<Jugador> jugadores) {
+		int numIngresos = NUMBER_OF_ELEMENTS;
+		for (Jugador j : jugadores) {
+			numIngresos = Math.min(numIngresos, j.getIngresos().size());
 		}
 		return numIngresos;
 	}
 
 	/**
-	 * @param jugadorA
-	 * @param jugadorB
-	 * @return
-	 */
-	private boolean needToCutElements(Jugador jugadorA, Jugador jugadorB) {
-		return jugadorA.getIngresos().size() != jugadorB.getIngresos().size() || jugadorA.getIngresos().size() > 10;
-	}
-
-	/**
 	 * @param jugador
 	 */
-	private StringJoiner getHistorialFechas(Jugador jugador) {
-		final StringJoiner fechas = new StringJoiner(",", "", "");
+	private String getHistorialFechas(Jugador jugador) {
+		final StringJoiner fechas = new StringJoiner(",", "[", "]");
 		for (final Ingreso i : jugador.getIngresos()) {
 			fechas.add("'" + i.getFecha().toString() + "'");
 		}
-		return fechas;
+		return fechas.toString();
 	}
 
 	/**
 	 * @param jugador
 	 * @return
 	 */
-	private StringJoiner getHistorialPuntosJugador(final Jugador jugador) {
-		final StringJoiner puntos = new StringJoiner(",", "", "");
+	private String getHistorialPuntosJugador(final Jugador jugador) {
+		final StringJoiner puntos = new StringJoiner(",", "[", "]");
 		for (final Ingreso i : jugador.getIngresos()) {
 			puntos.add(i.getPuntos().toString());
 		}
-		return puntos;
+		return puntos.toString();
 	}
 
-	private StringJoiner getHistorialFragmentosJugador(final Jugador jugador) {
-		final StringJoiner fragmentos = new StringJoiner(",", "", "");
+	private String getHistorialFragmentosJugador(final Jugador jugador) {
+		final StringJoiner fragmentos = new StringJoiner(",", "[", "]");
 		for (final Ingreso i : jugador.getIngresos()) {
 			fragmentos.add(i.getFragmentos().toString());
 		}
-		return fragmentos;
+		return fragmentos.toString();
 	}
 
 	public static <T> Collector<T, ?, List<T>> lastN(int n) {
@@ -147,4 +135,15 @@ public class CompararJugadoresController extends AbstractController {
 		} , ArrayList<T>::new);
 	}
 
+	@Override
+	protected String doValidate(HttpServletRequest request) {
+		StringBuilder errors = new StringBuilder();
+		if (!validateStringNotEmpty(request.getParameter(Constants.MODE), Constants.PUNTOS, Constants.FRAGMENTOS))
+			errors.append(Constants.URL_ERROR);
+		if (!validateNumericString(request.getParameter("cont"))) 
+			errors.append(Constants.URL_ERROR);
+		if (!validateStringListOfNumbers(request.getParameter("jugadores"))) 
+			errors.append(Constants.URL_ERROR);
+		return errors.toString();
+	}
 }

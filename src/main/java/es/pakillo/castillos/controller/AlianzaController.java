@@ -5,31 +5,26 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
+import es.pakillo.castillos.Constants;
 import es.pakillo.castillos.model.Jugador;
-import es.pakillo.castillos.service.alianza.AlianzaService;
-import es.pakillo.castillos.service.jugador.JugadorService;
 
-public class AlianzaController extends AbstractController {
+public class AlianzaController extends BasicController {
 
-	@Autowired
-	AbstractApplicationContext context;
-
-	@Autowired
-	JugadorService jugadorService;
-	
-	@Autowired
-	AlianzaService alianzaService;
-	
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	protected String doValidate(HttpServletRequest request) {
+		StringBuilder sb = new StringBuilder();
+		if (!validateNumericString(request.getParameter(Constants.ID))) {
+			sb.append(Constants.URL_ERROR);
+		}
+		return sb.toString();
+	}
+
+	@Override
+	protected ModelAndView doHandleRequestInternal(HttpServletRequest request, HttpServletResponse response) {
 		final ModelAndView modelAndView = new ModelAndView("alianza");
-		Long idAlianza = request.getParameter("id") != null ? Long.valueOf(request.getParameter("id")) : 1;
+		Long idAlianza = request.getParameter(Constants.ID) != null ? Long.valueOf(request.getParameter(Constants.ID)) : 1;
 		List<Jugador> jugadores = jugadorService.findByIdAlianza(idAlianza);
 		jugadores.forEach(p -> p.setProporcion(Math.floor((p.getFragmentos()*10000.0)/p.getPuntos())/100));
 		modelAndView.addObject("alianza", alianzaService.findById(idAlianza));

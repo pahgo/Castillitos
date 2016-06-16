@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Repository;
 
 import es.pakillo.castillos.dao.AbstractDao;
@@ -41,6 +42,14 @@ public class IngresoDaoImpl extends AbstractDao implements IngresoDao {
 	@Override
 	public void update(Ingreso ingreso) {
 		getSession().update(ingreso);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Ingreso> findByFecha(LocalDate fecha) {
+		Criteria criteria = getSession().createCriteria(Ingreso.class);
+		criteria.add(Restrictions.eq("fecha", fecha));
+		return (List<Ingreso>) criteria.list();
 	}
 
 }

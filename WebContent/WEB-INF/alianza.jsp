@@ -15,6 +15,7 @@
 		<div> <h1 class="titleH2">${alianza.nombre}</h1><input type="button" style="float:right" onclick="compararClicked();" value="Comparar"> </div>
 
 		<c:if test="${not empty jugadores}">
+			<div> <h1 class="titleH2" style="float:center"><a href="graficaDonaciones?idAlianza=${alianza.id}">Donaciones de la alianza</a></h1> </div>
 			<table id="jugadores" class="sorTable">
 				<thead>
 					<tr>
@@ -50,25 +51,21 @@
 		});
 		function compararClicked() {
 			var cont = 0;
-			var url = "comparaJugadores?mode=Puntos&jugadorA=";
+			var url = "comparaJugadores?mode=Puntos&cont=";
+			var jugadores = [];
 			$('input[name=checkCompare]').each(function() {
 				if ($(this).prop('checked')) {
+					jugadores.push($(this).attr('value'));
 					cont++;
-					if (cont == 1) {
-						url += $(this).attr('value');						
-					}
-					else if (cont == 2) {
-						url += "&jugadorB=" + $(this).attr('value');
-					}
 				}
 			});
-			if (cont != 2) {
-				alert("Solo se harán comparaciones de dos jugadores");
+			url += cont + "&jugadores=";
+			url += jugadores;
+			if (cont < 2) {
+				alert("Qué quieres comparar?");
 			}
-			else {
-				console.log(url);
-				window.location.href = url;
-			}
+			console.log(url);
+			window.location.href = url;
 		}
 	</script>
 

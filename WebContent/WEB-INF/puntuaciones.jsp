@@ -71,9 +71,9 @@
 				var id = $(this).attr('id');
 				content += 'jugador[id=' + id + ',';
 				content += 'puntos=' + $('#puntos_' + id).attr('value') + ',';
-				content += 'puntosPrevios=' + $('#puntosPrevios_' + id).attr('value') + ',';
+				content += 'puntosPrevios=' + $('#diferenciapuntos_' + id).attr('value') + ',';
 				content += 'fragmentos=' + $('#fragmentos_' + id).attr('value') + ',';
-				content += 'fragmentosPrevios=' + $('#fragmentosPrevios_' + id).attr('value');
+				content += 'fragmentosPrevios=' + $('#diferenciafragmentos_' + id).attr('value');
 				content += ']';
 			});
 			content += ']';

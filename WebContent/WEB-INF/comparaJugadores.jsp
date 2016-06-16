@@ -12,7 +12,7 @@
 <body>
 	<div id="wrapper">
 		<input id="toggle" type="button" value="Comparar ${mode}" onclick="toggle();">
-		<c:if test="${not empty jugadorA && not empty jugadorB}">
+		<c:if test="${not empty nombres && not empty fechas && not empty puntos && not empty colores}">
 			<canvas id="myChart" width="400" height="400"></canvas>
 		</c:if>
 	</div>
@@ -34,37 +34,42 @@
 			$('#toggle').attr("value", actualMode);
 			window.location.href = url;
 		}
+
+		var nombres = ${nombres};
+		var fechas = ${fechas};
+		var puntos = ${puntos};
+		var colores = ${colores}
 		var ctx = $("#myChart");
+		var datasets = [];
+		var i = 0;
+		nombres.forEach(function(nombre) {
+			datasets.push({data : puntos[i], borderColor : getRGBa(colores[i], 1), backgroundColor : getRGBa(colores[i], "0.0" + i), label : nombre, borderWidth : 1});
+			i++;
+		});
+
+		var data = {
+				datasets : datasets,
+				labels : fechas
+			};
+		
 		var myChart = new Chart(ctx,
 				{
 					type : 'line',
-					data : {
-						labels : [${fechas}],
-						datasets : [ {
-							label : "${mode} ${jugadorA.nombre}",
-							data : [${puntosA}],
-							backgroundColor : [ 'rgba(255, 99, 132, 0.2)' ],
-							borderColor : [ 'rgba(255,99,132,1)' ],
-							borderWidth : 1
-						}, 
-						{
-							label : "${mode} ${jugadorB.nombre}",
-							data : [${puntosB}],
-							backgroundColor : [ 'rgba(99, 255, 132, 0.2)' ],
-							borderColor : [ 'rgba(99, 255, 132,1)' ],
-							borderWidth : 1
-						}]
-					},
+					data : data,
 					options : {
-						scales : {
-							yAxes : [ {
-								ticks : {
-									beginAtZero : true
-								}
-							} ]
-						}
+						tooltipFillColor : "rgba(0,160,0,0.8)",
+						animationEasing : "easeOutBounce",
 					}
 				});
+		function getRGBa(hex, opacity) {
+			var color = "rgba(";
+			color += parseInt(hex.substring(1, 3), 16) + ", ";
+			color += parseInt(hex.substring(3, 5), 16) + ", ";
+			color += parseInt(hex.substring(5, 7), 16) + ", ";
+			color += opacity;
+			color += ")";
+			return color; 
+		}
 	</script>
 </body>
 </html>

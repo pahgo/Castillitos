@@ -1,5 +1,6 @@
 package es.pakillo.castillos.model;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -217,7 +218,22 @@ public class Jugador {
 		this.proporcion = proporcion;
 	}
 	
-	
+	@Transient
+	public static Comparator<Jugador> byFragmentosDesc = new Comparator<Jugador>(){
+		@Override
+		public int compare(Jugador o1, Jugador o2) {
+			return o2.getFragmentos().compareTo(o1.getFragmentos());
+		}
+		
+	};
+	@Transient
+	public static Comparator<Jugador> byPuntosDesc = new Comparator<Jugador>(){
+		@Override
+		public int compare(Jugador o1, Jugador o2) {
+			return o2.getPuntos().compareTo(o1.getPuntos());
+		}
+		
+	};
 	
 
 }
